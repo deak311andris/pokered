@@ -62,7 +62,8 @@ CeruleanCityScript0:
 	call ArePlayerCoordsInArray
 	ret nc
 	ld a, [wWalkBikeSurfState]
-	and, .prepareRivalMotion
+	and a
+	jr z, .prepareRivalMotion
 	ld a, $ff
 	ld [wNewSoundID], a
 	call PlaySound
@@ -179,12 +180,12 @@ CeruleanCityScript2:
 	call SetSpriteMovementBytesToFF
 	ld a, [wXCoord]
 	cp $14
-	jr nz, .asm_195f0
+	jr nz, .playerStandingLeft
 	ld de, CeruleanCityMovement4
-	jr .asm_195f3
-.asm_195f0
+	jr .moveRivalAndChangeToNextScript
+.playerStandingLeft
 	ld de, CeruleanCityMovement3
-.asm_195f3
+.moveRivalAndChangeToNextScript
 	ld a, $1
 	ld [H_SPRITEINDEX], a
 	call MoveSprite
@@ -279,7 +280,7 @@ CeruleanCityText_19677:
 CeruleanCityText2:
 	TX_ASM
 	CheckEvent EVENT_BEAT_CERULEAN_ROCKET_THIEF
-	jr nz, .asm_4ca20
+	jr nz, .RocketBeaten
 	ld hl, CeruleanCityText_196d9
 	call PrintText
 	ld hl, wd72d
@@ -295,7 +296,7 @@ CeruleanCityText2:
 	ld a, $4
 	ld [wCeruleanCityCurScript], a
 	jp TextScriptEnd
-.asm_4ca20
+.RocketBeaten
 	ld hl, CeruleanCityText_196f3
 	call PrintText
 	lb bc, TM_28, 1
@@ -357,20 +358,20 @@ CeruleanCityText7:
 	TX_ASM
 	ld a, [hRandomAdd]
 	cp 180
-	jr c, .asm_e9fc9
+	jr c, .punch
 	ld hl, CeruleanCityText_19730
 	call PrintText
-	jr .asm_d486e
-.asm_e9fc9
+	jr .done
+.punch
 	cp 100
-	jr c, .asm_df99b
+	jr c, .withdraw
 	ld hl, CeruleanCityText_19735
 	call PrintText
-	jr .asm_d486e
-.asm_df99b
+	jr .done
+.withdraw
 	ld hl, CeruleanCityText_1973a
 	call PrintText
-.asm_d486e
+.done
 	jp TextScriptEnd
 
 CeruleanCityText_19730:
@@ -389,26 +390,26 @@ CeruleanCityText8:
 	TX_ASM
 	ld a, [hRandomAdd]
 	cp 180
-	jr c, .asm_e28da
+	jr c, .loafing
 	ld hl, CeruleanCityText_1976f
 	call PrintText
-	jr .asm_f2f38
-.asm_e28da
+	jr .done
+.loafing
 	cp 120
-	jr c, .asm_15d08
+	jr c, .turnedAway
 	ld hl, CeruleanCityText_19774
 	call PrintText
-	jr .asm_f2f38
-.asm_15d08
+	jr .done
+.turnedAway
 	cp 60
-	jr c, .asm_d7fea
+	jr c, .ignoredOrders
 	ld hl, CeruleanCityText_19779
 	call PrintText
-	jr .asm_f2f38
-.asm_d7fea
+	jr .done
+.ignoredOrders
 	ld hl, CeruleanCityText_1977e
 	call PrintText
-.asm_f2f38
+.done
 	jp TextScriptEnd
 
 CeruleanCityText_1976f:
