@@ -135,25 +135,25 @@ FuchsiaCityLaprasText:
 
 FuchsiaCityText24:
 	TX_ASM
-	CheckEvent EVENT_GOT_DOME_FOSSIL
-	jr nz, .asm_3b4e8
+	CheckEvent EVENT_GOT_DOME_FOSSIL	; It's weird dome fossil is omanyte
+	jr nz, .omanyte
 	CheckEventReuseA EVENT_GOT_HELIX_FOSSIL
-	jr nz, .asm_667d5
+	jr nz, .kabuto
 	ld hl, FuchsiaCityText_19b2a
 	call PrintText
-	jr .asm_4343f
-.asm_3b4e8
+	jr .done
+.omanyte
 	ld hl, FuchsiaCityOmanyteText
 	call PrintText
 	ld a, OMANYTE
-	jr .asm_81556
-.asm_667d5
+	jr .pokedex
+.kabuto
 	ld hl, FuchsiaCityKabutoText
 	call PrintText
 	ld a, KABUTO
-.asm_81556
+.pokedex
 	call DisplayPokedex
-.asm_4343f
+.done
 	jp TextScriptEnd
 
 FuchsiaCityOmanyteText:
