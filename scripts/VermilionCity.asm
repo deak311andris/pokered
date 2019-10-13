@@ -51,13 +51,13 @@ VermilionCityScript0:
 	ld [hSpriteIndexOrTextID], a
 	call DisplayTextID
 	CheckEvent EVENT_SS_ANNE_LEFT
-	jr nz, .asm_19810
+	jr nz, .ssAnneLeft
 	ld b, S_S_TICKET
 	predef GetQuantityOfItemInBag
 	ld a, b
 	and a
 	ret nz
-.asm_19810
+.ssAnneLeft
 	ld a, D_UP
 	ld [wSimulatedJoypadStatesEnd], a
 	ld a, $1
@@ -135,14 +135,14 @@ VermilionCityText1:
 VermilionCityText2:
 	TX_ASM
 	CheckEvent EVENT_SS_ANNE_LEFT
-	jr nz, .asm_1989e
+	jr nz, .returnInAYear
 	ld hl, VermilionCityText_198a7
 	call PrintText
-	jr .asm_198a4
-.asm_1989e
+	jr .done
+.returnInAYear
 	ld hl, VermilionCityText_198ac
 	call PrintText
-.asm_198a4
+.done
 	jp TextScriptEnd
 
 VermilionCityText_198a7:
@@ -156,38 +156,38 @@ VermilionCityText_198ac:
 VermilionCityText3:
 	TX_ASM
 	CheckEvent EVENT_SS_ANNE_LEFT
-	jr nz, .asm_198f6
+	jr nz, .ssAnneLeft
 	ld a, [wSpriteStateData1 + 9]
 	cp SPRITE_FACING_RIGHT
-	jr z, .asm_198c8
+	jr z, .welcome
 	ld hl, VermilionCityCoords1
 	call ArePlayerCoordsInArray
-	jr nc, .asm_198d0
-.asm_198c8
+	jr nc, .checkTicket
+.welcome
 	ld hl, SSAnneWelcomeText4
 	call PrintText
-	jr .asm_198fc
-.asm_198d0
+	jr .done
+.checkTicket
 	ld hl, SSAnneWelcomeText9
 	call PrintText
 	ld b, S_S_TICKET
 	predef GetQuantityOfItemInBag
 	ld a, b
 	and a
-	jr nz, .asm_198e9
+	jr nz, .flashedTicket
 	ld hl, SSAnneNoTicketText
 	call PrintText
-	jr .asm_198fc
-.asm_198e9
+	jr .done
+.flashedTicket
 	ld hl, SSAnneFlashedTicketText
 	call PrintText
 	ld a, $4
 	ld [wVermilionCityCurScript], a
-	jr .asm_198fc
-.asm_198f6
+	jr .done
+.ssAnneLeft
 	ld hl, SSAnneNotHereText
 	call PrintText
-.asm_198fc
+.done
 	jp TextScriptEnd
 
 VermilionCityCoords1:
