@@ -43,7 +43,7 @@ CeladonCityText4:
 CeladonCityText5:
 	TX_ASM
 	CheckEvent EVENT_GOT_TM41
-	jr nz, .alreadyGotTm41
+	jr nz, .asm_7053f
 	ld hl, TM41PreText
 	call PrintText
 	lb bc, TM_41, 1
@@ -57,7 +57,7 @@ CeladonCityText5:
 	call PrintText
 	SetEvent EVENT_GOT_TM41
 	jr .Done
-.alreadyGotTm41
+.asm_7053f
 	ld hl, TM41ExplanationText
 	call PrintText
 .Done
