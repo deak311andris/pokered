@@ -36,18 +36,18 @@ CeruleanCityScript4:
 
 CeruleanCityScript0:
 	CheckEvent EVENT_BEAT_CERULEAN_ROCKET_THIEF
-	jr nz, .checkRival
+	jr nz, .asm_194f7
 	ld hl, CeruleanCityCoords1
 	call ArePlayerCoordsInArray
-	jr nc, .checkRival
+	jr nc, .asm_194f7
 	ld a, [wCoordIndex]
 	cp $1
 	ld a, PLAYER_DIR_UP
 	ld b, SPRITE_FACING_DOWN
-	jr nz, .initRocketBattle
+	jr nz, .asm_194e6
 	ld a, PLAYER_DIR_DOWN
 	ld b, SPRITE_FACING_UP
-.initRocketBattle
+.asm_194e6
 	ld [wPlayerMovingDirection], a
 	ld a, b
 	ld [wSpriteStateData1 + 2 * $10 + $9], a
@@ -55,18 +55,19 @@ CeruleanCityScript0:
 	ld a, $2
 	ld [hSpriteIndexOrTextID], a
 	jp DisplayTextID
-.checkRival
+.asm_194f7
 	CheckEvent EVENT_BEAT_CERULEAN_RIVAL
 	ret nz
 	ld hl, CeruleanCityCoords2
 	call ArePlayerCoordsInArray
 	ret nc
 	ld a, [wWalkBikeSurfState]
-	and, .prepareRivalMotion
+	and a
+	jr z, .asm_19512
 	ld a, $ff
 	ld [wNewSoundID], a
 	call PlaySound
-.prepareRivalMotion
+.asm_19512
 	ld c, BANK(Music_MeetRival)
 	ld a, MUSIC_MEET_RIVAL
 	call PlayMusic
@@ -76,14 +77,14 @@ CeruleanCityScript0:
 	ld [wJoyIgnore], a
 	ld a, [wXCoord]
 	cp $14
-	jr z, .moveRival
+	jr z, .asm_19535
 	ld a, $1
 	ld [H_SPRITEINDEX], a
 	ld a, $5
 	ld [H_SPRITEDATAOFFSET], a
 	call GetPointerWithinSpriteStateData2
 	ld [hl], $19
-.moveRival
+.asm_19535
 	ld a, HS_CERULEAN_RIVAL
 	ld [wMissableObjectIndex], a
 	predef ShowObject
